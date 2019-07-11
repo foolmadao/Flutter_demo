@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/dao/home_dao.dart';
+import 'package:flutter_demo/model/home_model.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,8 +17,29 @@ class _HomePageState extends State<HomePage> {
   ];
 
   double appBarOpacity = 0;
+  HomeModel model;
+
+  @override
+  void initState(){
+    super.initState();
+    loadData();
+  }
+
+  Future<Null> loadData() async {
+    try {
+      model = await HomeDao.fetch();
+      // setState(() {
+      //   model = model;
+      // });
+    } catch (e) {
+      print(e);
+    }
+    return null;
+    
+  }
 
   _onscroll(offset){
+    loadData();
     double alpha = offset / 100;
     if (alpha < 0) {
       alpha = 0;
@@ -61,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Container(
                     height: 800,
-                    child: ListTile(title: Text('haha'),)
+                    child: Text(model.bannerList[0].icon)
                   )
                 ],
               ),
