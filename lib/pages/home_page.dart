@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/dao/home_dao.dart';
+import 'package:flutter_demo/model/common_model.dart';
 import 'package:flutter_demo/model/home_model.dart';
+import 'package:flutter_demo/widget/local_nav.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +20,7 @@ class _HomePageState extends State<HomePage> {
 
   double appBarOpacity = 0;
   HomeModel model;
+  List<CommonModel> localNavList = [];
 
   @override
   void initState(){
@@ -28,9 +31,9 @@ class _HomePageState extends State<HomePage> {
   Future<Null> loadData() async {
     try {
       model = await HomeDao.fetch();
-      // setState(() {
-      //   model = model;
-      // });
+      setState(() {
+        localNavList = model.localNavList;
+      });
     } catch (e) {
       print(e);
     }
@@ -55,6 +58,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff2f2f2),
       body: Stack(
         children: <Widget>[
           MediaQuery.removePadding(
@@ -81,6 +85,10 @@ class _HomePageState extends State<HomePage> {
                       },
                       pagination: SwiperPagination(),
                     ),
+                  ),
+                  Padding(
+                    child: LocalNav(localNavList: localNavList),
+                    padding: EdgeInsets.fromLTRB(7, 4, 7, 4)
                   ),
                   Container(
                     height: 800,
