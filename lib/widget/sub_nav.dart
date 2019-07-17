@@ -49,7 +49,9 @@ class SubNav extends StatelessWidget {
   }
 
   Widget _item(BuildContext context, CommonModel model) {
-      return GestureDetector(
+    return Expanded(
+      flex: 1,
+      child: GestureDetector(
         onTap: () {
           Navigator.push(
             context,
@@ -66,14 +68,14 @@ class SubNav extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 3),
               child: Text(
-                model.title,
+                model.title??'无名',
                 style: TextStyle(fontSize: 12),
               ),
             )
-            
           ],
         ),
-      );
-    }
+      ),
+    );
+  }
 
 }

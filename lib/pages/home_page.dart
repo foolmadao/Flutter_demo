@@ -3,8 +3,10 @@ import 'package:flutter_demo/dao/home_dao.dart';
 import 'package:flutter_demo/model/common_model.dart';
 import 'package:flutter_demo/model/grid_nav_model.dart';
 import 'package:flutter_demo/model/home_model.dart';
+import 'package:flutter_demo/model/sale_box_model.dart';
 import 'package:flutter_demo/widget/grid_nav.dart';
 import 'package:flutter_demo/widget/local_nav.dart';
+import 'package:flutter_demo/widget/sale_box.dart';
 import 'package:flutter_demo/widget/sub_nav.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -15,17 +17,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List _imgList = [
-    'https://cn.bing.com/th?id=OIP.mWHSE3Q9KJnI-G8QEXXfsAHaH-&pid=Api&rs=1&p=0',
-    'https://cn.bing.com/th?id=OIP.RV5hLPYeCtEQMm1YvgregwHaFv&pid=Api&w=1024&h=794&rs=1&p=0',
-    'https://cn.bing.com/th?id=OIP.biWUP1BpIAvGl51_6xQ6TgHaLI&pid=Api&rs=1&p=0'
-  ];
+  List<CommonModel> bannerList = [];
 
   double appBarOpacity = 0;
   HomeModel model;
   List<CommonModel> localNavList = [];
   GridNavModel gridNavModel;
   List<CommonModel> subNavList;
+  SaleBoxModel saleBox;
 
   @override
   void initState(){
@@ -39,7 +38,9 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         localNavList = model.localNavList;
         gridNavModel = model.gridNav;
-        subNavList = model.subNavList;
+        subNavList   = model.subNavList;
+        saleBox      = model.saleBox; 
+        bannerList     = model.bannerList;
       });
     } catch (e) {
       print(e);
@@ -82,11 +83,11 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     height: 160,
                     child: Swiper(
-                      itemCount: _imgList.length,
+                      itemCount: bannerList.length,
                       autoplay: true,
                       itemBuilder: (BuildContext context, int index) {
                         return Image.network(
-                          _imgList[index],
+                          bannerList[index].icon,
                           fit: BoxFit.fill,
                         );
                       },
@@ -98,7 +99,8 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.fromLTRB(7, 4, 7, 4)
                   ),
                   GridNav(gridNavModel: gridNavModel),
-                  SubNav(subNavList: subNavList,)
+                  SubNav(subNavList: subNavList),
+                  SaleBox(salesBox: saleBox)
                 ],
               ),
             )
